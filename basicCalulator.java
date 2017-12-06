@@ -1,6 +1,6 @@
 import java.util.*;
 
-// 包含加减括号
+// + - ( )
 class BasicCalculator {
     public int calculate(String s) {
         Stack<Object> stack = new Stack<>();
