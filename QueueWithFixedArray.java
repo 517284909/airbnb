@@ -27,12 +27,6 @@ class QueueWithFixedArray {
         tailList.add(num);
         ++tail;
         ++count;
-        /*
-        System.err.print(tail);
-        System.err.print(" ");
-        System.err.print(count);
-        System.err.print(" ");
-        */
     }
 
     public Integer poll() {
