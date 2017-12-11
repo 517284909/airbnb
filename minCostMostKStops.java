@@ -29,23 +29,26 @@ class MinCostMostKStops {
         // Traverse
         Queue<Flight> queue = new LinkedList<>();
         queue.add(new Flight(source, 0));
-        Set<String> visited = new HashSet<>();
-        int min = Integer.MAX_VALUE;
-        for (int i = 0; i <= k; i++) {
+        int min = Integer.MAX_VALUE, stop = 0;
+        while (!queue.isEmpty()) {
+            if (stop++ > k) {
+                break;
+            }
             int sz = queue.size();
             int j = 0;
-            while (j < sz) {
+            while (j++ < sz) {
                 Flight next = queue.poll();
                 if (next.name.equals(target)) {
                     min = Math.min(min, next.cost);
-                } else if (!visited.contains(next.name)) {
-                    Map<String, Integer> neighbors = graph.get(next.name);
-                    for (Map.Entry<String, Integer> e: neighbors.entrySet()) {
-                        queue.add(new Flight(e.getKey(), e.getValue() + next.cost));
-                    }
-                    visited.add(next.name);
+                    continue;
                 }
-                ++j;
+                Map<String, Integer> neighbors = graph.get(next.name);
+                if (neighbors == null) {
+                    continue;
+                }
+                for (Map.Entry<String, Integer> e: neighbors.entrySet()) {
+                    queue.add(new Flight(e.getKey(), e.getValue() + next.cost));
+                }
             }
         }
 
@@ -65,7 +68,7 @@ class MinCostMostKStops {
         lines.add("B->E,10");
         lines.add("D->E,1");
         lines.add("E->F,5");
-        System.out.println(minCostMostKStops.minCostMostKStops(lines, "A", "F", 2));
+        System.out.println(minCostMostKStops.minCostMostKStops(lines, "A", "F", 3));
     }
 
 }
