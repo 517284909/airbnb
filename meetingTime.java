@@ -20,15 +20,10 @@ class MeetingTime {
         }
         Collections.sort(time_list, new Comparator<Integer>() {
             public int compare(Integer a, Integer b) {
-                if (a >= 0 && b >= 0 || a < 0 && b < 0) {
-                    return Math.abs(a) - Math.abs(b);
-                } else {
-                    if (Math.abs(a) == Math.abs(b)) {
-                        return b - a;
-                    } else {
-                        return Math.abs(a) - Math.abs(b);
-                    }
+                if (Math.abs(a) == Math.abs(b)) {
+                    return a - b;
                 }
+                return Math.abs(a) - Math.abs(b);
             }
         });
 
