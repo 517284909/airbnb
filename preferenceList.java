@@ -2,14 +2,6 @@ import java.util.*;
 
 class PreferenceList {
 
-    class Pair {
-        int idx, priority;
-        Pair(int i, int p) {
-            idx = i;
-            priority = p;
-        }
-    }
-
     // 输出按照输入的优先次序
     public List<Integer> getPreferenceListOrder(List<List<Integer>> preferences) {
         Map<Integer, Integer> priority = new HashMap<>();
@@ -40,25 +32,25 @@ class PreferenceList {
             }
         }
 
-        PriorityQueue<Pair> queue = new PriorityQueue<>(new Comparator<Pair>() {
-            public int compare(Pair a, Pair b) {
-                return a.priority - b.priority;
+        PriorityQueue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+            public int compare(Integer a, Integer b) {
+                return priority.get(a) - priority.get(b);
             }
         });
         for (Map.Entry<Integer, Integer> entry: degrees.entrySet()) {
             if (entry.getValue() == 0) {
-                queue.add(new Pair(entry.getKey(), priority.get(entry.getKey())));
+                queue.add(entry.getKey());
             }
         }
         List<Integer> results = new LinkedList<>();
         while (!queue.isEmpty()) {
-            Pair top = queue.poll();
-            results.add(top.idx);
-            List<Integer> neighbors = graph.get(top.idx);
+            Integer top = queue.poll();
+            results.add(top);
+            List<Integer> neighbors = graph.get(top);
             for (Integer n: neighbors) {
                 degrees.put(n, degrees.get(n) - 1);
                 if (degrees.get(n) == 0) {
-                    queue.add(new Pair(n, priority.get(n)));
+                    queue.add(n);
                 }
             }
         }
