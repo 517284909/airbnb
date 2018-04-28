@@ -22,16 +22,16 @@ class CaseCombination {
 
     // Iteration
     public List<String> combinationIter(String text) {
-        text = text.toLowerCase();
         List<String> results = new ArrayList<>();
-        results.add(text);
+        results.add("");
         for (int i = 0; i < text.length(); i++) {
-            int size = results.size();
-            for (int j = 0; j < size; j++) {
-                StringBuilder t = new StringBuilder(results.get(j));
-                t.setCharAt(i, Character.toUpperCase(results.get(j).charAt(i)));
-                results.add(t.toString());
+            List<String> next_results = new ArrayList<>();
+            for (int j = 0; j < results.size(); j++) {
+                String tmp = results.get(j);
+                next_results.add(tmp + Character.toLowerCase(text.charAt(i)));
+                next_results.add(tmp + Character.toUpperCase(text.charAt(i)));
             }
+            results = next_results;
         }
         return results;
     }
