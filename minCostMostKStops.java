@@ -1,5 +1,55 @@
 import java.util.*;
 
+class Solution {
+    public int findCheapestPrice(int m, int[][] flights, int src, int dst, int K) {
+        Map<Integer, Map<Integer, Integer>> graph = new HashMap<>();
+        for (int[] f: flights) {
+            if (!graph.containsKey(f[0]))
+                graph.put(f[0], new HashMap<>());
+            graph.get(f[0]).put(f[1], f[2]);
+        }
+        
+        //PriorityQueue<int[]> pq = new PriorityQueue<int[]>((a, b)->(a[2] - b[2]));
+        PriorityQueue<Station> pq = new PriorityQueue<Station>((a, b)->(a.cost - b.cost));
+
+        //pq.add(new int[]{src, 0, 0});
+        pq.add(new Station(src, 0, 0, new ArrayList<Integer>()));
+        while (!pq.isEmpty()) {
+            //int[] curr = pq.poll();
+            Station curr = pq.poll();
+            //int s = curr[0], k = curr[1], cost = curr[2];
+            int s = curr.id, k = curr.k, cost = curr.cost;
+            List<Integer> path = curr.path;
+            if (k > K + 1) continue;
+            if (s == dst) {
+                System.out.println(path);
+                return cost;
+            }
+            Map<Integer, Integer> neighbors = graph.get(s);
+            if (neighbors == null) continue;
+            for (Map.Entry<Integer, Integer> n: neighbors.entrySet()) {
+                //pq.add(new int[]{n.getKey(), k + 1, n.getValue() + cost});
+                pq.add(new Station(n.getKey(), k + 1, n.getValue() + cost, new ArrayList<Integer>(path)));
+            }
+        }
+        return -1;
+    }
+    
+    class Station {
+        int id, k, cost;
+        List<Integer> path;
+        
+        Station(int id, int k, int cost, List<Integer> path) {
+            this.id = id;
+            this.k = k;
+            this.cost = cost;
+            this.path = path;
+            this.path.add(id);
+        }
+    }
+}
+
+
 class MinCostMostKStops {
     class Flight {
         String name;
