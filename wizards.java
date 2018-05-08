@@ -25,6 +25,9 @@ class Wizards {
         queue.add(new Wizard(source, 0, source));
         while (!queue.isEmpty()) {
             Wizard top = queue.poll();
+            if (top.idx == target) {
+                break;
+            }
             List<Integer> neighbors = wizards.get(top.idx);
             for (int i = 0; i < neighbors.size(); i++) {
                 Wizard neighbor = graph.get(neighbors.get(i));
