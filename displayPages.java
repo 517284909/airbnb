@@ -1,7 +1,6 @@
 import java.util.*;
 
 class DisplayPages {
-    // TODO: 还能再优化
     public List<String> displayPages(List<String> input, int pageSize) {
         List<String> results = new ArrayList<>();
         if (input == null || input.size() == 0) {
