@@ -6,7 +6,6 @@ class Solution {
     private Iterator<Integer> colIter;
 
     public Solution(List<List<Integer>> vecs) {
-        
         rowIter = vecs.iterator();
         colIter = null;
     }
@@ -19,7 +18,7 @@ class Solution {
         while (rowIter.hasNext() && (colIter == null || !colIter.hasNext())) {
             colIter = rowIter.next().iterator();
         }
-        return colIter.hasNext();
+        return colIter != null && colIter.hasNext();
     }
 
     public void remove() {
@@ -30,6 +29,9 @@ class Solution {
 
     public final static void main(String[] args) {
         List<List<Integer>> vectors = new ArrayList<>();
+        List<Integer> row0 = new ArrayList<>();
+        vectors.add(row0);
+        vectors.add(new ArrayList<>(row0));
         List<Integer> row1 = new ArrayList<>();
         row1.add(1);
         row1.add(2);
