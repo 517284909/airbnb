@@ -24,7 +24,7 @@ class PalindromePair {
                     c_res.add(map.get(prefix));
                     result.add(c_res);
                 }
-                if (prefix.length() != 0 && map.containsKey(suffix) && isPalindrome(prefix) && map.get(suffix) != i) {
+                if (suffix.length() != words.get(i).length() && map.containsKey(suffix) && isPalindrome(prefix) && map.get(suffix) != i) {
                     List<Integer> c_res = new ArrayList<>();
                     c_res.add(map.get(suffix));
                     c_res.add(i);
