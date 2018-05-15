@@ -1,5 +1,91 @@
 import java.util.*;
 
+class Solution {
+    class Status {
+        int x, y;
+        int[][] board;
+        String encode;
+        int step;
+
+        Status(int[][] board, int step) {
+            this.board = new int[board.length][board[0].length];
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[i].length; j++) {
+                    this.board[i][j] = board[i][j];
+                    if (board[i][j] == 0) {
+                        this.x = i;
+                        this.y = j;
+                    }
+                }
+            }
+            this.encode = encodeBoard(board);
+            this.step = step;
+        }
+
+        String encodeBoard(int[][] board) {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < board.length; i++)
+                builder.append(Arrays.toString(board[i]));
+            this.encode = builder.toString();
+        }
+
+        List<Status> nextStatus() {
+            List<Status> nextS = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                int n_x = x + dx[i];
+                int n_y = y + dy[i];
+                if (n_x < 0 || n_x >= board.length || n_y < 0 || n_y >= board[n_x].length)
+                    continue;
+                board[x][y] = board[n_x][n_y];
+                board[n_x][n_y] = 0;
+                nextS.add(new Status(this.board, this.step + 1));
+                board[n_x][n_y] = board[x][y];
+                board[x][y] = 0;
+            }
+            return nextS;
+        }
+    }
+
+    private int[] dx = {-1, 0, 1, 0};
+    private int[] dy = {0, -1, 0, 1};
+
+    public int slidingPuzzle(int[][] board) {
+        Status initS = new Status(board, 0);
+        int[][] finalBoard = new int[board.length][board[0].length];
+        for (int i = 0; i < board.length; i++)
+            for (int j = 0; j < board[i].length; j++)
+                finalBoard[i][j] = i * finalBoard[i].length + j + 1;
+        finalBoard[finalBoard.length - 1][finalBoard[0].length - 1] = 0;
+        Status finalS = new Status(finalBoard, -1);
+
+        if (initS.encode.equals(finalS.encode)) {
+            return initS.step;
+        }
+
+        Queue<Status> queue = new LinkedList<>();
+        queue.add(initS);
+        Set<String> visited = new HashSet<>();
+        visited.add(initS.encode);
+        while (!queue.isEmpty()) {
+            Status s = queue.poll();
+            List<Status> nextS = s.nextStatus();
+            for (Status s: nextS) {
+                if (s.encode.equals(finalS.encode)) {
+                    return s.step;
+                }
+                if (visited.contains(s.encode)) {
+                    continue;
+                }
+                nextS.add(s);
+                visited.add(s.encode);
+            }
+        }
+        return -1;
+    }
+}
+
+
+
 class SlidingGame {
     private int[] dx = {-1, 0, 1, 0};
     private int[] dy = {0, -1, 0, 1};
