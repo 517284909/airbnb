@@ -1,5 +1,43 @@
 import java.util.*;
 
+class Solution {
+    public boolean pyramidTransition(String bottom, List<String> allowed) {
+        Map<String, Set<String>> graph = new HashMap<>();
+        for (String a: allowed) {
+            if (!graph.containsKey(a.substring(0, 2)))
+                graph.put(a.substring(0, 2), new HashSet<>());
+            graph.get(a.substring(0, 2)).add(a.substring(2));
+        }
+    
+        return search(bottom, graph);
+    }
+    
+    private void getCandidates(String bottom, int idx, Map<String, Set<String>> graph, String current, Set<String> candidates) {
+        if (idx == bottom.length() - 1) {
+            candidates.add(current);
+            return;
+        }
+        Set<String> values = graph.get(bottom.substring(idx, idx + 2));
+        if (values == null) return;
+        for (String v: values) {
+            getCandidates(bottom, idx + 1, graph, current + v, candidates);
+        }
+    }
+    
+    private boolean search(String bottom, Map<String, Set<String>> graph) {
+        if (bottom.length() == 1) return true;
+        if (bottom.length() == 0) return false;
+        
+        Set<String> candidates = new HashSet<>();
+        getCandidates(bottom, 0, graph, "", candidates);
+        for (String c: candidates) if (search(c, graph))
+            return true;
+
+        return false;
+    }
+}
+
+
 class PyramidsTransition {
     private Map<String, Set<Character>> map;
     private Map<String, Boolean> cache;
