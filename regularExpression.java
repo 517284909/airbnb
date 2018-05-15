@@ -21,9 +21,13 @@ class RegularExpression {
                 } else if (p.charAt(j) == '+') {
                     if (j > 0 && dp[i][j + 1] && (s.charAt(i) == p.charAt(j - 1) || p.charAt(j - 1) == '.')) {
                         dp[i + 1][j + 1] = true;
-                    } else if (j > 0 && dp[i][j] && (s.charAt(i) == p.charAt(j - 1) || p.charAt(j - 1) == '.')) {
+                    } else if (j > 0 && dp[i + 1][j]) {
                         dp[i + 1][j + 1] = true;
                     }
+                    /*
+                    else if (j > 0 && dp[i][j] && (s.charAt(i) == p.charAt(j - 1) || p.charAt(j - 1) == '.')) {
+                        dp[i + 1][j + 1] = true;
+                    }*/
                 } else {
                     dp[i + 1][j + 1] = dp[i][j] && (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.');
                 }
@@ -38,11 +42,15 @@ class RegularExpression {
         System.out.println(regularExpression.isMatch("", ".*"));
         System.out.println(regularExpression.isMatch("abc", "abc"));
         System.out.println(regularExpression.isMatch("abc", "abc+"));
+        System.out.println(regularExpression.isMatch("abc", "abcc+"));
+        System.out.println(regularExpression.isMatch("abc", "abcc*"));
         System.out.println(regularExpression.isMatch("abcc", "abc+"));
         System.out.println(regularExpression.isMatch("abccc", "abc+"));
         System.out.println(regularExpression.isMatch("abc", "abc*"));
         System.out.println(regularExpression.isMatch("abcc", "ab.+"));
+        System.out.println(regularExpression.isMatch("abcc", "ab..+"));
         System.out.println(regularExpression.isMatch("abccc", "ab.+"));
+        System.out.println(regularExpression.isMatch("abccc", "abd.+"));
     }
 }
 
