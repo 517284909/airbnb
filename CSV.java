@@ -32,18 +32,10 @@ class Solution {
     }
 
     public final static void main(String[] arg) {
-        /*
- *Input: csvformat
-
-
-"
- *
- *      */
-
         Solution s = new Solution();
         System.out.println(s.parseCSV("John,Smith,john.smith@gmail.com,Los Angeles,1"));
         System.out.println(s.parseCSV("Jane,Roberts,janer@msn.com,\"San Francisco, CA\",0"));
         System.out.println(s.parseCSV("\"Alexandra \"\"Alex\"\"\",Menendez,alex.menendez@gmail.com,Miami,1 \"\"\"Alexandra Alex\"\"\""));
-
+        System.out.println(s.parseCSV("\"Alexandra \"\"Alex\"\"\",Menendez,alex.menendez@gmail.com,Miami,1 \"\"\"\"\"Alexandra Alex\"\"\""));
     }
 }
