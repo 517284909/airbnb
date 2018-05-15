@@ -1,7 +1,41 @@
 import java.util.*;
 
-class WaterDrop {
 
+class Solution {
+    public int[] pourWater(int[] heights, int V, int K) {
+        
+        int v = 0;
+        while (v < V) {
+            ++v;
+            int l = K, lowestL = K;
+            while (l - 1 >= 0 && heights[l - 1] <= heights[l]) {
+                if (heights[l - 1] < heights[lowestL])
+                    lowestL = l - 1;
+                --l;
+            }
+            if (lowestL != K) {
+                ++heights[lowestL];
+                continue;
+            }
+            int r = K, lowestR = K;
+            while (r + 1 < heights.length && heights[r + 1] <= heights[r]) {
+                if (heights[r + 1] < heights[lowestR])
+                    lowestR = r + 1;
+                ++r;
+            }
+            if (lowestR != K) {
+                ++heights[lowestR];
+                continue;
+            }
+            ++heights[K];
+        }
+
+        return heights;
+    }
+}
+
+
+class WaterDrop {
     public void dropWater(int[] heights, int water, int location) {
         int[] waters = new int[heights.length];
 
